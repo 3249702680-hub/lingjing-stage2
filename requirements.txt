@@ -1,6 +1,11 @@
+# 原有基础依赖，保留以兼容现有方案
 numpy
 pandas
 matplotlib
 torch
 torchvision
 requests
+
+# YOLO 预训练目标检测与图片读取
+ultralytics
+Pillow

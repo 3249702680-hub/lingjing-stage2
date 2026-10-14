@@ -1,23 +1,28 @@
-# 灵境 AI 第二阶段：垃圾识别方案对比
+# 灵境 AI 第二阶段：传统视觉与多模态方案对比
 
 ## 项目目标
 
-对同一个垃圾识别任务分别使用传统深度学习和多模态大模型方案，在相同测试图片和类别定义下比较分类结果、准确率与耗时。
+使用传统视觉方案和多模态大模型方案处理同一批垃圾相关图片。当前传统方案的主入口已改为 YOLO 预训练目标检测：定位图片中的物体，输出类别、置信度和边界框，并保存标注图片。
 
 ## 两种方案
 
-- **传统深度学习方案**：已迁移第一阶段手写 ResNet 的结构和已训练权重，可对新图片进行分类预测。模型结构、图片预处理和类别顺序保持一致，不重新训练，不修改第一阶段项目。
-- **多模态大模型方案**：后续通过视觉大模型 API 输入图片并获取垃圾类别。`multimodal/api_predict.py` 当前仍为空，API 调用尚未实现。
+- **传统视觉方案**：使用 Ultralytics YOLO11n 预训练模型进行单张图片检测，不训练模型。运行说明见 [traditional/README.md](traditional/README.md)。原 ResNet 文件与权重保留作为历史分类方案。
+- **多模态大模型方案**：保留 `multimodal/` 的原有内容，本次未修改该目录或调用 API。
+
+默认 YOLO11n 输出 COCO 通用物体类别，与原 ResNet 六类垃圾分类不同。开展两种方案对比前，应统一检测类别与评价方式。
 
 ## 目录结构
 
 ```text
 lingjing-stage2/
 ├── traditional/
-│   ├── model.py
-│   ├── predict.py
+│   ├── yolo_detect.py         # 当前 YOLO 检测入口
+│   ├── README.md              # YOLO 运行说明
+│   ├── model.py               # 保留的 ResNet 模型
+│   ├── predict.py             # 保留的 ResNet 分类入口
 │   └── weights/
-│       └── best_resnet.pth
+│       ├── best_resnet.pth    # 保留的 ResNet 权重
+│       └── yolo11n.pt         # 首次推理缺失时自动下载
 ├── multimodal/
 │   └── api_predict.py
 ├── images/
@@ -27,33 +32,16 @@ lingjing-stage2/
 └── .gitignore
 ```
 
-## 传统方案运行方式
+## 安装与运行
 
-在项目根目录打开 PowerShell，准备独立虚拟环境并安装依赖：
+在项目根目录打开 PowerShell：
 
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements.txt
+.\.venv\Scripts\python.exe traditional\yolo_detect.py .\images\example.jpg
 ```
 
-准备一张测试图片，将下方示例路径替换为实际图片路径，再运行：
+请用实际图片路径替换 `example.jpg`。默认结果保存到项目内 `results/yolo/`；终端输出每个目标的类别、置信度和原图像素边界框。首次运行缺少默认权重时需要联网下载预训练模型；不会下载训练数据或执行训练。
 
-```powershell
-.\.venv\Scripts\python.exe traditional\predict.py .\images\example.jpg
-```
-
-也可以使用模块方式：
-
-```powershell
-.\.venv\Scripts\python.exe -m traditional.predict .\images\example.jpg
-```
-
-权重从脚本所在目录的 `weights/best_resnet.pth` 加载，即项目内的 `traditional/weights/best_resnet.pth`；不依赖当前工作目录。图片路径可以使用绝对路径，相对路径以当前工作目录为基准。
-
-图片预处理保持第一阶段的 `Resize((224, 224))` 和 `ToTensor()`。六类顺序为：`cardboard`、`glass`、`metal`、`paper`、`plastic`、`trash`。
-
-## 多模态方案后续运行方式
-
-待实现 API 预测逻辑、选择视觉 API 服务，并通过环境变量配置 API 密钥后，再运行 `multimodal/api_predict.py`。
-
-本次仅迁移已训练的传统方案，未重新训练、调用 API 或下载数据。
+依赖新增 `ultralytics` 与 `Pillow`，其余原有依赖保留；详情见传统方案 README。本次不删除原文件，不改写 Git 历史，不提交 Git commit。
