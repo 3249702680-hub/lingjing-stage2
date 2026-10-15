@@ -9,3 +9,4 @@ requests
 # YOLO 预训练目标检测与图片读取
 ultralytics
 Pillow
+dashscope==1.27.7
