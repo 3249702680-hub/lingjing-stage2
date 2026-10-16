@@ -1,0 +1,37 @@
+
+输入图片：
+C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\images\paper.jpg
+
+================ YOLO ================
+
+图片： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\images\paper.jpg
+模型： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\traditional\weights\garbage_detect.pt
+检测数量： 1
+[1] 类别=paper 置信度=0.9664 边界框(x1, y1, x2, y2)=(34.89, 17.97, 189.86, 113.73)
+结果图片： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\results\yolo\paper_detected_fhhk_xc4.jpg
+
+
+================ Qwen3-VL ================
+
+图片： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\images\paper.jpg
+模型：qwen3-vl-plus
+
+模型回答：
+1. 物体是什么？  
+   图中是两张白色纸张（或纸制品），其中一张叠放在另一张之上，呈平整、无印刷的空白状态，可能为普通打印纸、信纸或薄卡纸。
+
+2. 它属于哪种垃圾类别？  
+   属于**可回收物**（在生活垃圾分类体系中，通常归为“可回收物”类别）。
+
+3. 是否可回收？  
+   **是，可回收**。
+
+4. 简单说明判断理由：  
+   - 该物体为纯纸质材料，未被污染（无油渍、胶水、塑料覆膜、金属装订等复合成分），符合再生造纸的原料要求；  
+   - 根据中国《生活垃圾分类标志》（GB/T 19095-2019）及各地实施细则，干净的废纸（如办公用纸、信纸、书本纸等）明确列为可回收物；  
+   - 若纸张有严重污染（如沾油、被蜡/塑封）、或含大量不可分离复合材料（如带胶标签、镀铝纸），则不可回收；但本图中纸张洁净、单一材质，故判定为可回收。
+
+> 注：实际投放时，建议将纸张压平、去除订书钉/回形针等金属附件后再投入可回收物桶。
+
+结果已保存： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\results\multimodal\paper_result.txt
+

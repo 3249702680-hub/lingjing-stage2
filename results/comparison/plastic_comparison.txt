@@ -1,0 +1,38 @@
+
+输入图片：
+C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\images\plastic.jpg
+
+================ YOLO ================
+
+图片： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\images\plastic.jpg
+模型： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\traditional\weights\garbage_detect.pt
+检测数量： 0
+未检测到达到置信度阈值的目标，仍已保存结果图片。
+结果图片： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\results\yolo\plastic_detected_pv4ybvwx.jpg
+
+
+================ Qwen3-VL ================
+
+图片： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\images\plastic.jpg
+模型：qwen3-vl-plus
+
+模型回答：
+1. 物体是什么？  
+   一个空的透明塑料饮料瓶（PET材质），配有蓝色塑料瓶盖，瓶身已清空并置于白色背景上，瓶盖被取下放在一旁。
+
+2. 它属于哪种垃圾类别？  
+   **可回收物**（在中国生活垃圾分类标准中属于“可回收物”；在其他地区如欧盟、美国也归为“塑料 recyclables”）。
+
+3. 是否可回收？  
+   **是，可回收**。
+
+4. 简单说明判断理由：  
+   - 瓶身主要材质为**聚对苯二甲酸乙二醇酯（PET）**，是国际通用的食品级塑料，回收技术成熟，广泛用于再生纤维（如涤纶）、新塑料瓶等；  
+   - 瓶盖通常为**HDPE（高密度聚乙烯）或PP（聚丙烯）**，虽与瓶身材质不同，但现代分拣线可通过密度/光谱识别分离，也可单独回收（部分城市要求瓶盖与瓶身同收，部分建议拧紧后一起投放）；  
+   - 该物品清洁干燥、无残留内容物（图中为空瓶），符合可回收物“干净、干燥、无污染”的基本要求；  
+   - 根据《生活垃圾分类标志》（GB/T 19095-2019），废弃塑料瓶明确列入可回收物范畴。
+
+✅ 提示：投放前建议清空残留液体、压扁减容，并尽量保留瓶盖（因小件易在分拣中遗失），以提高回收效率。
+
+结果已保存： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\results\multimodal\plastic_result.txt
+
