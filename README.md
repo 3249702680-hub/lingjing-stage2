@@ -1,47 +1,165 @@
-# 灵境 AI 第二阶段：传统视觉与多模态方案对比
+# 灵境 AI 第二阶段：垃圾视觉识别对比
 
-## 项目目标
+## 项目简介
 
-使用传统视觉方案和多模态大模型方案处理同一批垃圾相关图片。当前传统方案的主入口已改为 YOLO 预训练目标检测：定位图片中的物体，输出类别、置信度和边界框，并保存标注图片。
+本项目针对同一组垃圾图片，分别使用两种方案进行处理：
 
-## 两种方案
+- **传统视觉方案：YOLO 目标检测**
+- **多模态方案：Qwen3-VL**
 
-- **传统视觉方案**：使用 Ultralytics YOLO11n 预训练模型进行单张图片检测，不训练模型。运行说明见 [traditional/README.md](traditional/README.md)。原 ResNet 文件与权重保留作为历史分类方案。
-- **多模态大模型方案**：保留 `multimodal/` 的原有内容，本次未修改该目录或调用 API。
+最终比较两种方案在目标检测、垃圾分类、语义理解和适用场景上的差异。
 
-默认 YOLO11n 输出 COCO 通用物体类别，与原 ResNet 六类垃圾分类不同。开展两种方案对比前，应统一检测类别与评价方式。
-
-## 目录结构
+## 项目结构
 
 ```text
 lingjing-stage2/
+├── compare.py
+├── images/
+│   ├── paper.jpg
+│   └── plastic.jpg
 ├── traditional/
-│   ├── yolo_detect.py         # 当前 YOLO 检测入口
-│   ├── README.md              # YOLO 运行说明
-│   ├── model.py               # 保留的 ResNet 模型
-│   ├── predict.py             # 保留的 ResNet 分类入口
+│   ├── yolo_detect.py
+│   ├── opencv_demo.py
 │   └── weights/
-│       ├── best_resnet.pth    # 保留的 ResNet 权重
-│       └── yolo11n.pt         # 首次推理缺失时自动下载
+│       └── garbage_detect.pt
 ├── multimodal/
 │   └── api_predict.py
-├── images/
 ├── results/
+│   ├── yolo/
+│   ├── multimodal/
+│   └── comparison/
 ├── README.md
-├── requirements.txt
-└── .gitignore
+└── requirements.txt
 ```
 
-## 安装与运行
+## YOLO 方案
 
-在项目根目录打开 PowerShell：
+YOLO 对输入图片进行目标检测，输出：
+
+```text
+类别
+置信度
+Bounding Box
+```
+
+例如 `paper.jpg`：
+
+```text
+类别：paper
+置信度：0.9664
+边界框：(34.89, 17.97, 189.86, 113.73)
+```
+
+YOLO 适合需要快速检测和精确目标定位的任务。
+
+## Qwen3-VL 方案
+
+Qwen3-VL 接收：
+
+```text
+图片 + Prompt
+```
+
+模型回答：
+
+1. 图片中的物体是什么
+2. 属于什么垃圾类别
+3. 是否可回收
+4. 判断理由
+
+Qwen3-VL 更适合图片描述、垃圾分类解释和视觉问答。
+
+## 两种方案对比
+
+| 对比项目 | YOLO | Qwen3-VL |
+|---|---|---|
+| 类别识别 | 支持 | 支持 |
+| 置信度 | 支持 | 不作为主要输出 |
+| Bounding Box | 支持 | 不擅长 |
+| 图片描述 | 不擅长 | 支持 |
+| 判断理由 | 不擅长 | 支持 |
+| 适用场景 | 实时检测、目标定位 | 复杂场景、描述、问答 |
+
+实验中：
+
+```text
+paper.jpg
+YOLO → paper，置信度 0.9664
+Qwen3-VL → 纸张，可回收物，并给出解释
+
+plastic.jpg
+YOLO → 未检测到目标
+Qwen3-VL → 塑料饮料瓶，可回收物，并给出解释
+```
+
+## OpenCV
+
+项目使用 OpenCV 完成了：
+
+```text
+图片读取
+图片缩放
+图片裁剪
+图片显示
+图片保存
+```
+
+示例代码：
+
+```text
+traditional/opencv_demo.py
+```
+
+## 安装依赖
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\python.exe -m pip install -r requirements.txt
-.\.venv\Scripts\python.exe traditional\yolo_detect.py .\images\example.jpg
+pip install -r requirements.txt
 ```
 
-请用实际图片路径替换 `example.jpg`。默认结果保存到项目内 `results/yolo/`；终端输出每个目标的类别、置信度和原图像素边界框。首次运行缺少默认权重时需要联网下载预训练模型；不会下载训练数据或执行训练。
+## 配置 API Key
 
-依赖新增 `ultralytics` 与 `Pillow`，其余原有依赖保留；详情见传统方案 README。本次不删除原文件，不改写 Git 历史，不提交 Git commit。
+```powershell
+setx DASHSCOPE_API_KEY "你的API_Key"
+```
+
+设置完成后重新打开终端。
+
+API Key 不应写入代码或上传到 GitHub。
+
+## 运行 YOLO
+
+```powershell
+python traditional\yolo_detect.py "images/paper.jpg"
+```
+
+## 运行 Qwen3-VL
+
+```powershell
+python multimodal\api_predict.py "images/paper.jpg"
+```
+
+## 运行完整对比
+
+```powershell
+python compare.py "images/paper.jpg"
+```
+
+或者：
+
+```powershell
+python compare.py "images/plastic.jpg"
+```
+
+结果保存到：
+
+```text
+results/comparison/
+```
+
+## 总结
+
+YOLO 更适合固定类别、快速检测和目标定位。
+
+Qwen3-VL 更擅长图片语义理解、自然语言描述和判断理由解释。
+
+两种方案各有优势，可以根据具体视觉任务选择使用。

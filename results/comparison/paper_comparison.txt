@@ -8,7 +8,7 @@ C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\images\paper.jpg
 模型： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\traditional\weights\garbage_detect.pt
 检测数量： 1
 [1] 类别=paper 置信度=0.9664 边界框(x1, y1, x2, y2)=(34.89, 17.97, 189.86, 113.73)
-结果图片： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\results\yolo\paper_detected_fhhk_xc4.jpg
+结果图片： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\results\yolo\paper_detected_obn_jns2.jpg
 
 
 ================ Qwen3-VL ================
@@ -27,11 +27,12 @@ C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\images\paper.jpg
    **是，可回收**。
 
 4. 简单说明判断理由：  
-   - 该物体为纯纸质材料，未被污染（无油渍、胶水、塑料覆膜、金属装订等复合成分），符合再生造纸的原料要求；  
-   - 根据中国《生活垃圾分类标志》（GB/T 19095-2019）及各地实施细则，干净的废纸（如办公用纸、信纸、书本纸等）明确列为可回收物；  
-   - 若纸张有严重污染（如沾油、被蜡/塑封）、或含大量不可分离复合材料（如带胶标签、镀铝纸），则不可回收；但本图中纸张洁净、单一材质，故判定为可回收。
+   - 该物体为纯纸质材料，未被严重污染（如油污、胶水、塑料覆膜等），也无复合材质（如铝箔纸、蜡纸等）；  
+   - 根据《生活垃圾分类标志》（GB/T 19095-2019）及各地实践，干净的废纸（包括打印纸、信纸、书籍、报纸等）属于典型的可回收物；  
+   - 纸张可通过再生造纸工艺循环利用，资源化价值高；  
+   - 注意：若纸张被食物残渣、油渍、胶带大量污染，或为复写纸、热敏纸（如收银小票）、含塑封/镀铝层的包装纸，则不可回收。但本图中纸张洁净、无附加物，符合可回收标准。
 
-> 注：实际投放时，建议将纸张压平、去除订书钉/回形针等金属附件后再投入可回收物桶。
+✅ 结论：干净空白纸张 → 可回收物 → 应投入可回收物垃圾桶。
 
 结果已保存： C:\Users\32497\Desktop\ai study\AI-study\lingjing-stage2\results\multimodal\paper_result.txt
 

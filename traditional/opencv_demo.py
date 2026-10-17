@@ -27,4 +27,13 @@ cv2.imwrite("results/resized_paper.jpg", resized)
 cv2.imwrite("results/crop_paper.jpg", crop)
 
 
+# 展示
+cv2.imshow("Original", image)
+cv2.imshow("Resized", resized)
+cv2.imshow("Crop", crop)
+
+cv2.waitKey(0)
+cv2.destroyAllWindows()
+
+
 print("处理完成")
